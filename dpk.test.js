@@ -65,7 +65,7 @@ describe("deterministicPartitionKey", () => {
     expect(trivialKey).toEqual(trivialKey2);
   });
 
-  it('should return the same hash for the same string input', () => {
+  it('returns the same hash for the same string input', () => {
     const event = "event";
     const trivialKey = deterministicPartitionKey(event);
 
@@ -73,6 +73,20 @@ describe("deterministicPartitionKey", () => {
     const trivialKey2 = deterministicPartitionKey(event2);
 
     expect(trivialKey).toEqual(trivialKey2);
+  });
+
+  it('returns the object when partition key is an object', () => {
+    const event = { partitionKey: { name: "isaac" } };
+    const trivialKey = deterministicPartitionKey(event);
+
+    expect(trivialKey).toBe('{"name":"isaac"}');
+  });
+
+  it('returns a hash when the strigified object is greater than 256', () => {
+    const event = {partitionKey: { name: "isaac".repeat(256), age: 32 }}
+    const trivialKey = deterministicPartitionKey(event);
+
+    expect(trivialKey).toBe("1d65c20f227d58280747573f0a9432e22adb41743b1a3fcd598a9b0a9c44e04810f64292449dc17c241a260de4c8841e70b5d15e815f4f935f1c57eef48e160e");
   });
 
 });
