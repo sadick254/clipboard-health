@@ -12,6 +12,13 @@ describe("deterministicPartitionKey", () => {
     expect(trivialKey).toBe("0");
   });
 
+  // TODO: Find out if a string with whitespace should be considered empty.
+  it("returns a hash when a string with whitespace is passed", () => {
+    const event = " ";
+    const trivialKey = deterministicPartitionKey(event);
+    expect(trivialKey).toBe("20b42560b6d0019042ccb5476246e60c66b5a779ff8b36fe6c391d565b816f83eb097a3d997d3a4d31591b54c8064e60b94907d65571766017ef4bdb343b2c2a");
+  });
+
   it("returns a hash for an empty object", () => {
     const event = {};
     const trivialKey = deterministicPartitionKey(event);
