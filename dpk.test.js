@@ -89,4 +89,11 @@ describe("deterministicPartitionKey", () => {
     expect(trivialKey).toBe("1d65c20f227d58280747573f0a9432e22adb41743b1a3fcd598a9b0a9c44e04810f64292449dc17c241a260de4c8841e70b5d15e815f4f935f1c57eef48e160e");
   });
 
+  it('returns a stringified number when the partition key is a number', () => {
+    const event = {partitionKey: 1};
+    const trivialKey = deterministicPartitionKey(event);
+
+    expect(trivialKey).toBe("1");
+  });
+
 });
